@@ -62,7 +62,7 @@ if (cluster.isPrimary) {
     const filePath = path.join(__dirname, 'public', req.body.path || '/uploads', req.file.filename);
 
     // Execute the script with the file path
-    exec(`bash your-script.sh "${filePath}"`, (error, stdout, stderr) => {
+    exec(`bash ./scripts/add-file.sh "${filePath}"`, (error, stdout, stderr) => {
       if (error) {
         console.error(`Error executing script: ${error.message}`);
         return res.status(500).send({ error: 'Script execution failed', details: error.message });
@@ -70,7 +70,6 @@ if (cluster.isPrimary) {
 
       res.send({
         message: 'File uploaded and script executed successfully!',
-        filePath,
         scriptOutput: stdout.trim(),
       });
     });
