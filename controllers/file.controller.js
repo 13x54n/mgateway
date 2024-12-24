@@ -11,7 +11,7 @@ exports.uploadFile = (req, res) => {
     req.file.filename
   );
 
-  exec(`bash ./scripts/add-file.sh "${filePath}"`, async (error, stdout) => {
+  exec(`bash ./scripts/add-file.sh "${filePath.replace(/(["\s'$`\\])/g,'\\$1')}"`, async (error, stdout) => {
     if (error) {
       console.error(`Error executing script: ${error.message}`);
       return res.status(500).send({
