@@ -20,13 +20,15 @@ exports.uploadFile = (req, res) => {
       });
     }
 
-    const ipfsHash = stdout.trim();
+    // ipfs hash is something like added QmNpr7ch73TDdFuK2BLMDxQxdj5uCEP2wSoXkm8Gb56bXo 1735047961494-logo.svg but i need only hash
+    const ipfsHash = stdout.split(' ')[1].trim();
 
     try {
       const file = new File({
-        filename: req.file.filename,
-        path: filePath,
-        ipfsHash,
+        name: req.file.filename,
+        user: req.body.user,
+        cid: ipfsHash,
+        size: req.file.size,
       });
       await file.save();
 
@@ -43,7 +45,7 @@ exports.uploadFile = (req, res) => {
         res.send({
           message:
             "File uploaded, script executed, and local file deleted successfully!",
-          ipfsHash,
+          file,
         });
       });
     } catch (dbError) {
