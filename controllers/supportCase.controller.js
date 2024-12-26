@@ -1,6 +1,5 @@
 const SupportCase = require("../models/supportCase.model");
 const fs = require("fs");
-const nodemailer = require("nodemailer");
 
 // Create a new support case
 exports.createSupportCase = async (req, res) => {
