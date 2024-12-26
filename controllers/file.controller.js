@@ -91,6 +91,8 @@ exports.deleteFile = async (req, res) => {
     // Delete the file from MongoDB
     await File.deleteOne({ _id: fileId });
 
+    // @dev need to delete from IPFS to pinning it
+
     res.status(200).send({
       message: "File deleted successfully",
       file,
@@ -114,7 +116,7 @@ exports.pinFileToIPFS = (req, res) => {
         return res.status(404).send({ message: "File not found" });
       }
 
-      exec(`ipfs pin add ${file.cid}`, (error, stdout, stderr) => {
+      exec(`ipfs pin add ${file.cid}`, async (error, stdout, stderr) => {
         if (error) {
           console.error("Error pinning file to IPFS:", error.message);
           return res.status(500).send({
@@ -123,11 +125,22 @@ exports.pinFileToIPFS = (req, res) => {
           });
         }
 
-        res.status(200).send({
-          message: "File pinned to IPFS successfully!",
-          cid: file.cid,
-          output: stdout || stderr,
-        });
+        try {
+          file.pinned = true;
+          await file.save();
+
+          res.status(200).send({
+            message: "File pinned to IPFS successfully!",
+            cid: file.cid,
+            output: stdout || stderr,
+          });
+        } catch (dbError) {
+          console.error("Error updating file in MongoDB:", dbError);
+          res.status(500).send({
+            message: "Failed to update file metadata in MongoDB",
+            error: dbError.message,
+          });
+        }
       });
     })
     .catch((error) => {

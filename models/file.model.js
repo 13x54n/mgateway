@@ -6,6 +6,7 @@ const fileSchema = new mongoose.Schema({
   size: String,
   cid: String,
   user: String,
+  pinned: { type: Boolean, default: false },
 });
 
 module.exports = mongoose.model("File", fileSchema);

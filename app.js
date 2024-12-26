@@ -7,6 +7,7 @@ const morgan = require("morgan");
 const fileRoutes = require("./routes/file.routes");
 const mongoose = require("mongoose");
 const path = require("path");
+const supportCaseRouter = require("./routes/supportCase.routes");
 
 const app = express();
 
@@ -28,5 +29,6 @@ app.use("/public", express.static(path.join(__dirname, "public")));
 
 // Routes
 app.use("/", fileRoutes);
+app.use("/", supportCaseRouter);
 
 module.exports = app;
