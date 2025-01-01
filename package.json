@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "@genkit-ai/googleai": "^0.9.12",
+    "@google/generative-ai": "^0.21.0",
     "axios": "^1.7.9",
     "body-parser": "^1.20.3",
     "child_process": "^1.0.2",
@@ -7,6 +9,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "genkit": "^0.9.12",
     "helmet": "^8.0.0",
     "mongoose": "^8.9.2",
     "morgan": "^1.10.0",

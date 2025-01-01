@@ -82,3 +82,27 @@ exports.deleteSupportCase = async (req, res) => {
       .json({ error: "Error deleting support case.", details: error.message });
   }
 };
+
+// Update a support case by marking it as resolved
+exports.markSupportCaseResolved = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const supportCase = await SupportCase.findById(id);
+    if (!supportCase) {
+      return res.status(404).json({ error: "Support case not found." });
+    }
+
+    supportCase.resolved = true;
+    await supportCase.save();
+
+    res.json({
+      message: "Support case marked as resolved.",
+      supportCase,
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "Error updating support case.", details: error.message });
+  }
+};

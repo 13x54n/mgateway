@@ -20,4 +20,10 @@ supportCaseRouter.delete(
   supportCaseController.deleteSupportCase
 );
 
+supportCaseRouter.patch(
+  "/support-case/:id",
+  supportCaseController.markSupportCaseResolved
+);
+
+
 module.exports = supportCaseRouter;
