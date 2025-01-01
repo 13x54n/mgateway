@@ -3,7 +3,7 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const genkitRouter = express.Router();
 
-const genAI = new GoogleGenerativeAI("AIzaSyBB0J2GQEhJUIp-xHL_HAW0WhyUNTASNSs");
+const genAI = new GoogleGenerativeAI(process.env.GENKIT_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 // Define routes
